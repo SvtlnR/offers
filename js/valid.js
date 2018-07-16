@@ -1,0 +1,68 @@
+$(document).ready(function(){
+	var readyMail=false;
+	var readyFile=false;
+	$('.err').hide('fast');
+	$('#email').blur(function() {
+		if($(this).val() != '') {
+			var pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
+					if(pattern.test($(this).val())){
+						$(this).removeClass("errinp");
+						$(this).addClass("correctinp");
+						readyMail=true;
+						$('#errmail').hide('fast');
+					} else {
+						$(this).removeClass("correctinp");
+						$(this).addClass("errinp");
+						$('#errmail').show('fast');
+						readyMail=false;
+					}
+		} else {
+			$(this).removeClass("correctinp");
+			$(this).addClass("errinp");
+			$('#email').attr("placeholder","Input e-mail!");
+		}
+	});
+	$("#addfile").change(function(){
+		var pattern=/\.(pdf|jpe?g)$/i;
+			if(pattern.test($(this).val())){
+				$('#errfile').hide('fast');
+				readyFile=true;
+			}
+			else{
+				$("#errfile").show('fast');
+				readyFile=false;
+			}
+	});
+	$("#sendform").click(function(e){
+
+		e.preventDefault();
+		if(readyMail&&readyFile)
+         {
+      
+         	var em=$("#email").val();
+         	var cm=$("#comment").val();
+         	var fl=$("#addfile").val();
+            $.ajax({
+                url: '/handler.php',
+                type: 'post',
+                data: {'email':em,'comment':cm,'filename':fl},
+                datatype:"json",
+                success: function(){
+                	$("#inputoffer").hide('fast');
+                	$("#resform").show('fast');
+                	$("#email").val('');
+         			$("#addfile").val('');
+         			$("#comment").val('');
+         			$("#email").removeClass("errinp");
+         			$("#email").removeClass("correctinp");
+                }
+               
+            });
+        }
+       else
+       {
+
+       }
+	});
+
+});
