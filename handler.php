@@ -22,7 +22,11 @@ if(($em===null)||($filename===null)){
 $con=Db::getInstance();
 $db=new Offer($con);
 $db->addOffer($em, $comment, $filename);
-		
+echo json_encode([
+			"status" => true,
+    		"msg" => "Offer is sent"
+]);
+die();
 
 
 
