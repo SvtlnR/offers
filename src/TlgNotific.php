@@ -1,13 +1,20 @@
 <?php 
 	class TlgNotific{
-		public static function sendNotif($email,$filename,$comment){
-			$botToken="556914578:AAFR7JE9HBHa2fH4nSAsscQSGh7kiGhVsLs";
+		public static function sendNotif($email,$comment,$filename){
+			$botToken="688770078:AAGH8DsFZQcuibxYrSeOHXWvvweI-cigqKw";
 			$website="https://api.telegram.org/bot".$botToken;
-			$chatId= "-220017608";  //Receiver Chat Id 
-			$params=[
-    		'chat_id'=>$chatID,
-    		'text'=>'E-mail:'.$email.', comment:'.$comment.', file:'.$filename,
-		];
+			$chatId= "-318840721";  //Receiver Chat Id 
+				$params=[
+                'chat_id' => $chatId,
+                'parse_mode' => 'html',
+                'text' => implode(PHP_EOL, array(
+                    "<b>E-mail:</b> ". $email,
+                    "<b>Comment:</b>  ".  $comment,
+                    "<b>File:</b>"  .  $filename,
+                  ) )
+                
+                ];
+
 		$ch = curl_init($website . '/sendMessage');
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -17,4 +24,5 @@
 		$result = curl_exec($ch);
 		curl_close($ch);
 		}
+
 	}

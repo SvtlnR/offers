@@ -110,25 +110,28 @@
 			<div class="inf content">
 				<div class="err" id="errmail">Invalid e-mail</div>
 				<div class="err" id="errfile">File has to be .pdf,.jpeg or .jpg</div>
-				<form action="/handler.php" method="post">
+				<div id="resform">
+					<div class="par">Your offer is sent.</div>
+				</div>
+				<form action="./handler.php" method="post">
 					
 					<div class="inpfield">
 						
 						<strong>E-mail</strong><br>
 						
-						<input type="text" id="email">
+						<input type="text" id="email" name ="email">
 					</div>
 					<div class="inpfield">
 						
 						<strong>Comment</strong><br>
 						
-						<textarea id="comment"></textarea>
+						<textarea id="comment" name="comment"></textarea>
 					</div>
 					<div class="inpfield">
 						
 						<strong>Attach file</strong><br>
 						
-						<input type="file" id="addfile" value="Choose file">
+						<input type="file" id="addfile" name="addfile" value="Choose file">
 					</div>
 					<div class="inpfield">
 						<input type="submit" id="sendform" value="Send">
@@ -137,17 +140,13 @@
 
 			</div>
 			</div>
-			<div id="resform">
-				<div class="inf content">
-					Your offer is sent.
-				</div>
-			</div>
+			
 		</div>
 	</main>
 	<footer>
 		
 	</footer>
 	<script src="./js/script.js"></script>
-	<script src="./js/valid.js"></script>
+	<script src="./js/valid.js?v=<?php echo  time(); ?>"></script>
 </body>
 </html>

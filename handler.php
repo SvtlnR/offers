@@ -1,33 +1,28 @@
 <?php
 error_reporting(E_ALL);
-require("./src/ErrorOutput.php");
 require("./src/Db.php");
 require("./src/TlgNotific.php");
+require("./src/Offer.php");
 
 
 
-$dbtbl=Db::getInstance();
-if(isset($_POST['email'],$_POST['filename'])){
-	if(preg_match("/^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i", $_POST['email'])){
-		$em=$_POST['email'];
-		if(preg_match("/\.(pdf|jpe?g)$/i", $_POST['filename'])){
-			$filename=$_POST['filename'];
-			$comment=$_POST['comment'];
-			Db::addOffer($em,$comment,$filename);
-			TlgNotific::sendNotif($em,$comment,$filename);
-		}
-		else{
-				ErrorOutput::err_out("Invalid file");
-		}
-		}
-	else{
-		ErrorOutput::err_out("Invalid e-mail");
-	}
-
+$em = isset($_POST['email']) ? $_POST['email']: null;
+$comment = isset($_POST['comment']) ? $_POST['comment']: null;
+$filename = isset($_POST['filename']) ? $_POST['filename']: null;
+if(($em===null)||($filename===null)){
+	echo json_encode([
+		'status'=>false,
+		'line'=> __LINE__,
+		'body'=>[
+			'error_key'=>'data is not valid'
+		]
+	]);
+	die();
 }
-else{
-	ErrorOutput::err_out("Required data is not filled");
-}			
+$con=Db::getInstance();
+$db=new Offer($con);
+$db->addOffer($em, $comment, $filename);
+		
 
 
 
