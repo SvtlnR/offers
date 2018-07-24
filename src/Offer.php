@@ -11,5 +11,9 @@ class Offer{
 		$s->bindParam(':filename', $filename);
 		$s->execute();
 		TlgNotific::sendNotif($em,$cm,$filename);
+		echo json_encode([
+			"status" => true,
+    		"msg" => "Offer is sent"
+		]);
 	}
 }
